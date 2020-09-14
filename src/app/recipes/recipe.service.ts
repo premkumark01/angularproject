@@ -14,7 +14,7 @@ export class RecipeService {
       'Good for Health!!!',
       'https://previews.123rf.com/images/neonicflower/neonicflower1609/neonicflower160900024/63016527-juice-icon-orange-juice-isolated-icon-on-white-background-glass-of-juice-with-tubule-orange-smoothie.jpg',
       [
-        new Ingredient('Orange', 1),
+        new Ingredient('Orange',1),
         new Ingredient('ice', 1)
       ]),
     new Recipe('Apple Juice',
