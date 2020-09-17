@@ -1,29 +1,29 @@
-import {  Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
-
 @Injectable()
 export class RecipeService {
- 
+  recipesChanged = new Subject<Recipe[]>();
 
   private recipes: Recipe[] = [
     new Recipe(
-      'Orange Juice',
-      'Good for Health!!!',
-      'https://previews.123rf.com/images/neonicflower/neonicflower1609/neonicflower160900024/63016527-juice-icon-orange-juice-isolated-icon-on-white-background-glass-of-juice-with-tubule-orange-smoothie.jpg',
+      'Tasty Schnitzel',
+      'A super-tasty Schnitzel - just awesome!',
+      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
       [
-        new Ingredient('Orange', 1),
-        new Ingredient('ice', 1)
+        new Ingredient('Meat', 1),
+        new Ingredient('French Fries', 20)
       ]),
-    new Recipe('Apple Juice',
-      'Good for Health!!!',
-      'https://previews.123rf.com/images/neonicflower/neonicflower1607/neonicflower160700007/60497963-juice-icon-apple-juice-isolated-icon-on-white-background-flat-style-vector-illustration-.jpg',
+    new Recipe('Big Fat Burger',
+      'What else you need to say?',
+      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
       [
-        new Ingredient('apple', 1),
-        new Ingredient('ice', 1)
+        new Ingredient('Buns', 2),
+        new Ingredient('Meat', 1)
       ])
   ];
 
@@ -32,11 +32,27 @@ export class RecipeService {
   getRecipes() {
     return this.recipes.slice();
   }
+
   getRecipe(index: number) {
     return this.recipes[index];
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.slService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
